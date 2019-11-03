@@ -1,0 +1,15 @@
+#
+# Announcer configuration
+# Author: AKANE AKAGI (akaregi)
+# License: GPLv3
+#
+# Prefix and Messages support color code.
+#
+
+suffix-command: "lp user %player% meta setprefix 10 %suffix%"
+
+messages:
+  plugin-prefix: "&8[&6Suffix&8]&r"
+  no-permission: "&c権限がありません"
+  player-is-offline: "&cそのプレイヤーはオフラインです"
+  specify-player: "&cプレイヤーを指定してください"

@@ -1,0 +1,37 @@
+#
+# Required configuration
+#
+main: net.okocraft.suffix.Suffix
+name: @project.name@
+version: @project.version@
+
+#
+# Recommended configuration
+#
+api-version: "1.14"
+
+#
+# Optional configuration
+#
+author: LazyGon
+description: @project.description@
+website: @project.url@
+
+#
+# CommandDispatcher
+#
+commands:
+  suffix:
+    description: A command to use Announcer.
+    usage: /<command> help
+
+#
+# Permission
+#
+permissions:
+  suffix.change:
+    description: A permission to manage Announcer.
+    default: op
+  suffix.change.other:
+    description: A permission to manage Announcer.
+    default: op
