@@ -44,13 +44,13 @@ public class Respawner extends JavaPlugin implements CommandExecutor, TabComplet
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		String suffix;
 		Player target;
-		
+
 		if (sender.hasPermission("suffix.other")) {
 			if (args.length == 0) {
 				sender.sendMessage(getMessage("specify-player"));
 				return false;
 			}
-			
+
 			if (args.length == 1) {
 				sender.sendMessage(getMessage("specify-suffix"));
 				return false;
@@ -67,7 +67,7 @@ public class Respawner extends JavaPlugin implements CommandExecutor, TabComplet
 		} else {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(getMessage("player-only"));
-				return false;	
+				return false;
 			}
 
 			if (args.length == 0) {
@@ -78,7 +78,7 @@ public class Respawner extends JavaPlugin implements CommandExecutor, TabComplet
 			target = (Player) sender;
 			suffix = args[0];
 		}
-		
+
 		int maxLength = config.getInt("suffix-length", 1);
 		if (maxLength < suffix.length()) {
 			sender.sendMessage(getMessageReplaced("too-long-suffix", Map.of("%length%", String.valueOf(maxLength))));
@@ -87,14 +87,13 @@ public class Respawner extends JavaPlugin implements CommandExecutor, TabComplet
 		for (String blacklistPattern : config.getStringList("blacklist-pattern")) {
 			if (suffix.contains(blacklistPattern)) {
 				sender.sendMessage(getMessageReplaced("blacklist-pattern", Map.of("%pattern%", blacklistPattern)));
-				return false;	
+				return false;
 			}
 		}
 
 		String sufixApplyCommand = config
 				.getString("suffix-apply-command", "lp user %player_name% meta setsuffix 10 %suffix%")
-				.replaceAll("%suffix%", suffix)
-				.replaceAll("%player_name%", target.getName());
+				.replaceAll("%suffix%", suffix).replaceAll("%player_name%", target.getName());
 
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), sufixApplyCommand);
 
@@ -103,9 +102,22 @@ public class Respawner extends JavaPlugin implements CommandExecutor, TabComplet
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		if (args.length == 1) {
-			return StringUtil.copyPartialMatches(args[0], Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toSet()), new ArrayList<>());
+		if (sender.hasPermission("suffix.other")) {
+			if (args.length == 1) {
+				return StringUtil.copyPartialMatches(args[0],
+						Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()),
+						new ArrayList<>());
+			}
+
+			if (args.length == 2) {
+				return StringUtil.copyPartialMatches(args[1], List.of("<suffix>"), new ArrayList<>());
+			}
+		} else {
+			if (args.length == 1) {
+				return StringUtil.copyPartialMatches(args[0], List.of("<suffix>"), new ArrayList<>());
+			}
 		}
+
 		return List.of();
 	}
 
