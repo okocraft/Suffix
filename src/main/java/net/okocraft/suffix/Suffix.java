@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -132,7 +133,7 @@ public class Suffix extends JavaPlugin implements CommandExecutor, TabCompleter 
 	}
 
 	private String getMessageReplaced(String key, Map<String, String> placeholders) {
-		String result = getMessage(key).replaceAll("%player_name%", player);
+		String result = getMessage(key);
 		for (Map.Entry<String, String> placeholder : placeholders.entrySet()) {
 			result = result.replaceAll(placeholder.getKey(), placeholder.getValue());
 		}
