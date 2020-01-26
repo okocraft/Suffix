@@ -1,4 +1,4 @@
-package net.okocraft.respawner;
+package net.okocraft.suffix;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 
-public class Respawner extends JavaPlugin implements CommandExecutor, TabCompleter {
+public class Suffix extends JavaPlugin implements CommandExecutor, TabCompleter {
 
 	private FileConfiguration config;
 	private FileConfiguration defaultConfig;
