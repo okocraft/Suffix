@@ -11,17 +11,15 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 
-public class Suffix extends JavaPlugin implements CommandExecutor, TabCompleter {
+public class Suffix extends JavaPlugin {
 
 	private FileConfiguration config;
 	private FileConfiguration defaultConfig;
@@ -81,7 +79,8 @@ public class Suffix extends JavaPlugin implements CommandExecutor, TabCompleter 
 		}
 
 		int maxLength = config.getInt("suffix-length", 1);
-		if (maxLength < suffix.length()) {
+		int suffixLength = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', suffix)).length();
+		if (maxLength < suffixLength) {
 			sender.sendMessage(getMessageReplaced("too-long-suffix", Map.of("%length%", String.valueOf(maxLength))));
 			return false;
 		}
