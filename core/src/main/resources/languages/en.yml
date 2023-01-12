@@ -1,0 +1,6 @@
+specify-player: "§7* Specify player."
+specify-suffix: "§7* Specify suffix."
+player-not-found: "§7* Player not found."
+player-only: "§7* Only players can onTabComplete."
+too-long-suffix: "§7* Too long suffix. Suffix should be {0} §7or shorter."
+blacklist-pattern: "§7* Suffix containing pattern {0} §7cannot be specified."

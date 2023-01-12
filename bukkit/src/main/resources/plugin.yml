@@ -1,0 +1,20 @@
+name: Suffix
+version: '${projectVersion}'
+main: net.okocraft.suffix.bukkit.Main
+description: Plugin that implements suffix command.
+depend: [ "LuckPerms" ]
+
+commands:
+  suffix:
+    description: "Command that changes suffix of player."
+    permission: "suffix.use"
+
+permissions:
+  suffix.use:
+    default: op
+  suffix.other:
+    default: op
+  suffix.unlimited.length:
+    default: op
+  suffix.unlimited.pattern:
+    default: op

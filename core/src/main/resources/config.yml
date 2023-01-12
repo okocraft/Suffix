@@ -1,0 +1,8 @@
+suffix-length: 1 # except color codes.
+blacklist-pattern: []
+
+suffix-priority: 10
+# Used only installed platform.
+bukkit-suffix-apply-command: "lp user %player_name% meta setsuffix 10 %suffix%"
+bungee-suffix-apply-command: "lpb user %player_name% meta setsuffix 10 %suffix%"
+
