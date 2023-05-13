@@ -33,6 +33,11 @@ public class SuffixCommand extends Command implements TabCompleter {
             audience = plugin.adventure().console();
         }
 
+        if (!sender.hasPermission("suffix.use")) {
+            audience.sendMessage(Component.translatable("no-permission"));
+            return;
+        }
+
         ServerInterface server = plugin.platform().getServer();
         String suffix;
         Player target;
@@ -70,19 +75,24 @@ public class SuffixCommand extends Command implements TabCompleter {
             suffix = args[0];
         }
 
-        int maxLength = plugin.config().getInteger("suffix-length", 1);
-        int suffixLength = PlainTextComponentSerializer.plainText().serialize(
-                LegacyComponentSerializer.legacyAmpersand()
-                        .deserialize(suffix.replaceAll("&#([0-9a-fA-F]{6})", ""))
-        ).length();
-        if (maxLength < suffixLength) {
-            audience.sendMessage(Component.translatable("too-long-suffix").args(Component.text(maxLength)));
-            return;
-        }
-        for (String blacklistPattern : plugin.config().getStringList("blacklist-pattern")) {
-            if (suffix.contains(blacklistPattern)) {
-                audience.sendMessage(Component.translatable("blacklist-pattern").args(Component.text(blacklistPattern)));
+        if (!target.hasPermission("suffix.unlimited.length")) {
+            int maxLength = plugin.config().getInteger("suffix-length", 1);
+            int suffixLength = PlainTextComponentSerializer.plainText().serialize(
+                    LegacyComponentSerializer.legacyAmpersand()
+                            .deserialize(suffix.replaceAll("&#([0-9a-fA-F]{6})", ""))
+            ).length();
+            if (maxLength < suffixLength) {
+                audience.sendMessage(Component.translatable("too-long-suffix").args(Component.text(maxLength)));
                 return;
+            }
+        }
+
+        if (!target.hasPermission("suffix.unlimited.pattern")) {
+            for (String blacklistPattern : plugin.config().getStringList("blacklist-pattern")) {
+                if (suffix.contains(blacklistPattern)) {
+                    audience.sendMessage(Component.translatable("blacklist-pattern").args(Component.text(blacklistPattern)));
+                    return;
+                }
             }
         }
 

@@ -1,3 +1,4 @@
+no-permission: "&7* 権限がありません。"
 specify-player: "§7* プレイヤーを指定してください。"
 specify-suffix: "§7* suffixを指定してください。"
 player-not-found: "§7* プレイヤーが見つかりませんでした。"
