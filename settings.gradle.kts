@@ -1,4 +1,4 @@
-rootProject.name = "suffix"
+rootProject.name = "Suffix"
 
 includeBuild("bukkit")
 includeBuild("bungeecord")
