@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -25,16 +24,8 @@ public class SuffixCommand extends Command implements TabCompleter {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        Audience audience;
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            audience = plugin.adventure().player(player.getUniqueId());
-        } else {
-            audience = plugin.adventure().console();
-        }
-
         if (!sender.hasPermission("suffix.use")) {
-            audience.sendMessage(Component.translatable("no-permission"));
+            sender.sendMessage(Component.translatable("no-permission"));
             return;
         }
 
@@ -43,31 +34,31 @@ public class SuffixCommand extends Command implements TabCompleter {
         Player target;
         if (sender.hasPermission("suffix.other")) {
             if (args.length == 0) {
-                audience.sendMessage(Component.translatable("specify-player"));
+                sender.sendMessage(Component.translatable("specify-player"));
                 return;
             }
 
             if (args.length == 1) {
-                audience.sendMessage(Component.translatable("specify-suffix"));
+                sender.sendMessage(Component.translatable("specify-suffix"));
                 return;
             }
 
             target = server.getPlayer(args[0]);
             if (target == null) {
-                audience.sendMessage(Component.translatable("player-not-found"));
+                sender.sendMessage(Component.translatable("player-not-found"));
                 return;
             }
 
             suffix = args[1];
         } else {
             if (!(sender instanceof Player)) {
-                audience.sendMessage(Component.translatable("player-only"));
+                sender.sendMessage(Component.translatable("player-only"));
                 return;
             }
             Player player = ((Player) sender);
 
             if (args.length == 0) {
-                audience.sendMessage(Component.translatable("specify-suffix"));
+                sender.sendMessage(Component.translatable("specify-suffix"));
                 return;
             }
 
@@ -82,7 +73,7 @@ public class SuffixCommand extends Command implements TabCompleter {
                             .deserialize(suffix.replaceAll("&#([0-9a-fA-F]{6})", ""))
             ).length();
             if (maxLength < suffixLength) {
-                audience.sendMessage(Component.translatable("too-long-suffix").args(Component.text(maxLength)));
+                sender.sendMessage(Component.translatable("too-long-suffix").args(Component.text(maxLength)));
                 return;
             }
         }
@@ -90,7 +81,7 @@ public class SuffixCommand extends Command implements TabCompleter {
         if (!target.hasPermission("suffix.unlimited.pattern")) {
             for (String blacklistPattern : plugin.config().getStringList("blacklist-pattern")) {
                 if (suffix.contains(blacklistPattern)) {
-                    audience.sendMessage(Component.translatable("blacklist-pattern").args(Component.text(blacklistPattern)));
+                    sender.sendMessage(Component.translatable("blacklist-pattern").args(Component.text(blacklistPattern)));
                     return;
                 }
             }

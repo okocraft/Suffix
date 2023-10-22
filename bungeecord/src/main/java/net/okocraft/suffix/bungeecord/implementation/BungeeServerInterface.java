@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.okocraft.suffix.bungeecord.Main;
@@ -97,15 +99,18 @@ public class BungeeServerInterface implements ServerInterface {
     @Override
     public Collection<Player> getPlayers() {
         return ProxyServer.getInstance().getPlayers().stream()
-                .map(BungeeServerInterface::toAPIPlayer)
+                .map(this::toAPIPlayer)
                 .collect(Collectors.toSet());
     }
 
-    private static Player toAPIPlayer(ProxiedPlayer bungeePlayer) {
+    private Player toAPIPlayer(ProxiedPlayer bungeePlayer) {
         if (bungeePlayer == null) {
             return null;
         }
         return new Player() {
+
+            private final Audience player = plugin.adventure().player(bungeePlayer);
+
             @Override
             public UUID getUniqueId() {
                 return bungeePlayer.getUniqueId();
@@ -120,10 +125,15 @@ public class BungeeServerInterface implements ServerInterface {
             public boolean hasPermission(String permission) {
                 return bungeePlayer.hasPermission(permission);
             }
+
+            @Override
+            public void sendMessage(Component message) {
+                player.sendMessage(message);
+            }
         };
     }
 
-    private static CommandSender toAPISender(net.md_5.bungee.api.CommandSender bungeeSender) {
+    private CommandSender toAPISender(net.md_5.bungee.api.CommandSender bungeeSender) {
         if (bungeeSender == null) {
             return null;
         }
@@ -143,10 +153,17 @@ public class BungeeServerInterface implements ServerInterface {
                 public boolean hasPermission(String permission) {
                     return bungeeSender.hasPermission(permission);
                 }
+
+                @Override
+                public void sendMessage(Component message) {
+                    plugin.adventure().console().sendMessage(message);
+                }
             };
         }
 
         return new CommandSender() {
+
+            private final Audience sender = plugin.adventure().sender(bungeeSender);
             @Override
             public String getName() {
                 return bungeeSender.getName();
@@ -155,6 +172,11 @@ public class BungeeServerInterface implements ServerInterface {
             @Override
             public boolean hasPermission(String permission) {
                 return bungeeSender.hasPermission(permission);
+            }
+
+            @Override
+            public void sendMessage(Component message) {
+                sender.sendMessage(message);
             }
         };
     }

@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.okocraft.suffix.bukkit.Main;
 import net.okocraft.suffix.core.api.command.sender.CommandSender;
 import net.okocraft.suffix.core.api.command.sender.ConsoleCommandSender;
@@ -76,15 +78,18 @@ public class BukkitServerInterface implements ServerInterface {
     @Override
     public Collection<Player> getPlayers() {
         return plugin.getServer().getOnlinePlayers().stream()
-                .map(BukkitServerInterface::toAPIPlayer)
+                .map(this::toAPIPlayer)
                 .collect(Collectors.toSet());
     }
 
-    private static Player toAPIPlayer(org.bukkit.entity.Player bukkitPlayer) {
+    private Player toAPIPlayer(org.bukkit.entity.Player bukkitPlayer) {
         if (bukkitPlayer == null) {
             return null;
         }
         return new Player() {
+
+            private final Audience player = plugin.adventure().player(bukkitPlayer);
+
             @Override
             public UUID getUniqueId() {
                 return bukkitPlayer.getUniqueId();
@@ -99,10 +104,15 @@ public class BukkitServerInterface implements ServerInterface {
             public boolean hasPermission(String permission) {
                 return bukkitPlayer.hasPermission(permission);
             }
+
+            @Override
+            public void sendMessage(Component message) {
+                player.sendMessage(message);
+            }
         };
     }
 
-    private static CommandSender toAPISender(org.bukkit.command.CommandSender bukkitSender) {
+    private CommandSender toAPISender(org.bukkit.command.CommandSender bukkitSender) {
         if (bukkitSender == null) {
             return null;
         }
@@ -122,10 +132,18 @@ public class BukkitServerInterface implements ServerInterface {
                 public boolean hasPermission(String permission) {
                     return bukkitSender.hasPermission(permission);
                 }
+
+                @Override
+                public void sendMessage(Component message) {
+                    plugin.adventure().console().sendMessage(message);
+                }
             };
         }
 
         return new CommandSender() {
+
+            private final Audience sender = plugin.adventure().sender(bukkitSender);
+
             @Override
             public String getName() {
                 return bukkitSender.getName();
@@ -134,6 +152,11 @@ public class BukkitServerInterface implements ServerInterface {
             @Override
             public boolean hasPermission(String permission) {
                 return bukkitSender.hasPermission(permission);
+            }
+
+            @Override
+            public void sendMessage(Component message) {
+                sender.sendMessage(message);
             }
         };
     }

@@ -7,7 +7,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
-import net.kyori.adventure.platform.AudienceProvider;
 import net.okocraft.suffix.core.api.Platform;
 import net.okocraft.suffix.core.command.SuffixCommand;
 
@@ -16,8 +15,6 @@ public class SuffixPlugin {
     private final Platform platform;
 
     private final TranslationManager translationManager;
-
-    private AudienceProvider adventure;
 
     private YamlConfiguration config;
 
@@ -38,8 +35,6 @@ public class SuffixPlugin {
     }
 
     public void onEnable() {
-        this.adventure = platform.createAudiences();
-
         this.config = YamlConfiguration.create(platform.getDataFolder().resolve("config.yml"));
         try {
             ResourceUtils.copyFromJarIfNotExists(getJarPath(), "config.yml", config.getPath());
@@ -54,11 +49,6 @@ public class SuffixPlugin {
 
     public void onDisable() {
         platform.getServer().unregisterCommand(suffixCommand);
-        if(this.adventure != null) {
-            this.adventure.close();
-            this.adventure = null;
-        }
-
         translationManager.unload();
 
         if (this.config != null) {
@@ -76,13 +66,6 @@ public class SuffixPlugin {
             throw new IllegalStateException("Plugin is not enabled yet.");
         }
         return this.config;
-    }
-
-    public AudienceProvider adventure() {
-        if (adventure == null) {
-            throw new IllegalStateException("Plugin is not enabled yet.");
-        }
-        return this.adventure;
     }
 
     private static Path getJarPath() {

@@ -12,13 +12,13 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains:annotations:23.1.0")
+    implementation("org.jetbrains:annotations:24.0.1")
 
-    implementation("net.kyori:adventure-api:4.12.0")
-    implementation("net.kyori:adventure-text-serializer-plain:4.12.0")
-    implementation("net.kyori:adventure-platform-bungeecord:4.2.0")
+    implementation("net.kyori:adventure-api:4.14.0")
+    implementation("net.kyori:adventure-text-serializer-plain:4.14.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.14.0")
 
-    implementation("com.github.siroshun09.configapi:configapi-yaml:4.6.0")
+    implementation("com.github.siroshun09.configapi:configapi-yaml:4.6.4")
     implementation("com.github.siroshun09.translationloader:translationloader:2.0.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
