@@ -23,54 +23,46 @@ public class SuffixCommand extends Command implements TabCompleter {
         this.plugin = plugin;
     }
 
+    // /suffix <suffix> [player]
     public void execute(CommandSender sender, String[] args) {
         if (!sender.hasPermission("suffix.use")) {
             sender.sendMessage(Component.translatable("no-permission"));
             return;
         }
 
+        if (args.length == 0) {
+            sender.sendMessage(Component.translatable("specify-suffix"));
+            return;
+        }
+
+        String suffix = args[0];
         ServerInterface server = plugin.platform().getServer();
-        String suffix;
+
         Player target;
-        if (sender.hasPermission("suffix.other")) {
-            if (args.length == 0) {
-                sender.sendMessage(Component.translatable("specify-player"));
+
+        if (args.length == 1) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(Component.translatable("player-only"));
                 return;
             }
+            target = (Player) sender;
 
-            if (args.length == 1) {
-                sender.sendMessage(Component.translatable("specify-suffix"));
-                return;
-            }
-
+        } else {
             target = server.getPlayer(args[0]);
             if (target == null) {
                 sender.sendMessage(Component.translatable("player-not-found"));
                 return;
             }
-
-            suffix = args[1];
-        } else {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Component.translatable("player-only"));
+            if (!target.equals(sender) && !sender.hasPermission("suffix.other")) {
+                sender.sendMessage(Component.translatable("no-permission"));
                 return;
             }
-            Player player = ((Player) sender);
-
-            if (args.length == 0) {
-                sender.sendMessage(Component.translatable("specify-suffix"));
-                return;
-            }
-
-            target = player;
-            suffix = args[0];
         }
 
         if (!target.hasPermission("suffix.unlimited.length")) {
             int maxLength = plugin.config().getInteger("suffix-length", 1);
             int suffixLength = PlainTextComponentSerializer.plainText().serialize(
-                    LegacyComponentSerializer.legacyAmpersand()
-                            .deserialize(suffix.replaceAll("&#([0-9a-fA-F]{6})", ""))
+                    LegacyComponentSerializer.legacyAmpersand().deserialize(suffix)
             ).length();
             if (maxLength < suffixLength) {
                 sender.sendMessage(Component.translatable("too-long-suffix").args(Component.text(maxLength)));
