@@ -8,61 +8,42 @@ import com.github.siroshun09.translationloader.TranslationLoader;
 import com.github.siroshun09.translationloader.directory.TranslationDirectory;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
+import java.util.jar.JarFile;
+
 import net.kyori.adventure.key.Key;
-import net.okocraft.suffix.core.api.Platform;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-class TranslationManager {
+public class TranslationManager {
 
-    private final Platform plugin;
-    private final Path jarFile;
+    private final Path jarFilePath;
     private final TranslationDirectory translationDirectory;
 
-    TranslationManager(Platform plugin) {
-        this.plugin = plugin;
-        String path = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-        Path jarFilePath;
-        try {
-            // for linux.
-            jarFilePath = Paths.get(path);
-        } catch (InvalidPathException e) {
-            // for windows.
-            if (path.startsWith("/")) {
-                path = path.substring(1);
-            }
-            jarFilePath = Paths.get(path);
-        }
-        this.jarFile = jarFilePath;
-
-        Path pluginDirectory = plugin.getDataFolder();
-
+    public TranslationManager(String pluginName, String pluginVersion, Path jarFilePath, Path pluginDirectory) {
+        this.jarFilePath = jarFilePath;
         this.translationDirectory = TranslationDirectory.newBuilder()
                 .setDirectory(pluginDirectory.resolve("languages"))
-                .setKey(Key.key(plugin.getName().toLowerCase(Locale.ROOT), "languages"))
+                .setKey(Key.key(pluginName.toLowerCase(Locale.ROOT), "languages"))
                 .setDefaultLocale(Locale.ENGLISH)
                 .onDirectoryCreated(this::saveDefaultLanguages)
-                .setVersion(plugin.getVersion())
+                .setVersion(pluginVersion)
                 .setTranslationLoaderCreator(this::getBundledTranslation)
                 .build();
     }
 
-    void load() {
+    public void load() {
         try {
             translationDirectory.load();
         } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not load languages", e);
+            e.printStackTrace();
         }
     }
 
-    void unload() {
+    public void unload() {
         translationDirectory.unload();
     }
 
@@ -72,7 +53,7 @@ class TranslationManager {
                 "ja_JP.yml"
         );
         for (String file : files) {
-            ResourceUtils.copyFromJarIfNotExists(jarFile, ("languages/" + file), directory.resolve(file));
+            ResourceUtils.copyFromJarIfNotExists(jarFilePath, ("languages/" + file), directory.resolve(file));
         }
     }
 
@@ -85,7 +66,8 @@ class TranslationManager {
 
         Configuration source;
 
-        try (InputStream input = ResourceUtils.getInputStreamFromJar(jarFile, "languages/" + strLocale + ".yml")) {
+        try (JarFile jar = new JarFile(jarFilePath.toFile());
+             InputStream input = ResourceUtils.getInputStreamFromJar(jar, "languages/" + strLocale + ".yml")) {
             source = YamlConfiguration.loadFromInputStream(input);
         }
 
