@@ -1,35 +1,34 @@
-package net.okocraft.suffix.bungeecord.implementation;
+package net.okocraft.suffix.velocity.implementation;
 
-import java.io.File;
 import java.nio.file.Path;
-import net.okocraft.suffix.bungeecord.Main;
 import net.okocraft.suffix.core.api.Logger;
+import net.okocraft.suffix.velocity.Main;
 import net.okocraft.suffix.core.api.Platform;
 import net.okocraft.suffix.core.api.ServerInterface;
 
-public class BungeePlatform implements Platform {
+public class VelocityPlatform implements Platform {
     private final Main plugin;
 
-    private final BungeeServerInterface server;
+    private final VelocityServerInterface server;
 
-    public BungeePlatform(Main plugin) {
+    public VelocityPlatform(Main plugin) {
         this.plugin = plugin;
-        this.server = new BungeeServerInterface(plugin);
+        this.server = new VelocityServerInterface(plugin);
     }
 
     @Override
     public Path getDataFolder() {
-        return plugin.getDataFolder().toPath();
+        return plugin.dataDirectory();
     }
 
     @Override
     public String getName() {
-        return plugin.getDescription().getName();
+        return plugin.container().getDescription().getName().orElse("");
     }
 
     @Override
     public String getVersion() {
-        return plugin.getDescription().getVersion();
+        return plugin.container().getDescription().getVersion().orElse("");
     }
 
     @Override

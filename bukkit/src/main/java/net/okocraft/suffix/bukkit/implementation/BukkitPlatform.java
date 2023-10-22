@@ -1,11 +1,8 @@
 package net.okocraft.suffix.bukkit.implementation;
 
-import java.io.File;
 import java.nio.file.Path;
-import java.util.logging.Logger;
-import net.kyori.adventure.platform.AudienceProvider;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.okocraft.suffix.bukkit.Main;
+import net.okocraft.suffix.core.api.Logger;
 import net.okocraft.suffix.core.api.Platform;
 import net.okocraft.suffix.core.api.ServerInterface;
 
@@ -20,18 +17,8 @@ public class BukkitPlatform implements Platform {
     }
 
     @Override
-    public AudienceProvider createAudiences() {
-        return BukkitAudiences.create(plugin);
-    }
-
-    @Override
     public Path getDataFolder() {
         return plugin.getDataFolder().toPath();
-    }
-
-    @Override
-    public File getFile() {
-        return plugin.getJarFile();
     }
 
     @Override
@@ -46,7 +33,7 @@ public class BukkitPlatform implements Platform {
 
     @Override
     public Logger getLogger() {
-        return plugin.getLogger();
+        return plugin.logger();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.okocraft.suffix.bukkit;
 
-import java.io.File;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.okocraft.suffix.bukkit.implementation.BukkitLogger;
 import net.okocraft.suffix.bukkit.implementation.BukkitPlatform;
 import net.okocraft.suffix.core.SuffixPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,11 +9,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
     private final SuffixPlugin plugin;
+    private final BukkitLogger logger;
 
     private BukkitAudiences adventure;
 
     public Main() {
         plugin = new SuffixPlugin(new BukkitPlatform(this));
+        logger = new BukkitLogger(getLogger());
     }
 
     @Override
@@ -40,8 +42,7 @@ public class Main extends JavaPlugin {
         return this.adventure;
     }
 
-    // Fu
-    public File getJarFile() {
-        return getFile();
+    public BukkitLogger logger() {
+        return this.logger;
     }
 }

@@ -1,8 +1,8 @@
 package net.okocraft.suffix.bungeecord;
 
-import java.io.File;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.okocraft.suffix.bungeecord.implementation.BungeeLogger;
 import net.okocraft.suffix.bungeecord.implementation.BungeePlatform;
 import net.okocraft.suffix.core.SuffixPlugin;
 
@@ -10,10 +10,13 @@ public class Main extends Plugin {
 
     private final SuffixPlugin plugin;
 
+    private final BungeeLogger logger;
+
     private BungeeAudiences adventure;
 
     public Main() {
         plugin = new SuffixPlugin(new BungeePlatform(this));
+        logger = new BungeeLogger(getLogger());
     }
 
     @Override
@@ -40,8 +43,7 @@ public class Main extends Plugin {
         return this.adventure;
     }
 
-    // Fu
-    public File getJarFile() {
-        return getFile();
+    public BungeeLogger logger() {
+        return this.logger;
     }
 }
