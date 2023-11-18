@@ -43,6 +43,6 @@ public class VelocityPlatform implements Platform {
 
     @Override
     public String getSuffixSetCommand(String playerName, int suffixPriority, String suffix) {
-        return "lpb user " + playerName + " meta setsuffix " + suffixPriority + " " + suffix;
+        return "lpv user " + playerName + " meta setsuffix " + suffixPriority + " " + suffix;
     }
 }
