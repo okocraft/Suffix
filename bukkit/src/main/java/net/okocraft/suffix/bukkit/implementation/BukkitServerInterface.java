@@ -79,36 +79,9 @@ public class BukkitServerInterface implements ServerInterface {
     }
 
     @Override
-    public void dispatchCommand(CommandSender sender, String command) {
-        org.bukkit.command.CommandSender bukkitCommandSender;
-        if (sender instanceof Player) {
-            org.bukkit.entity.Player bukkitPlayer = plugin.getServer().getPlayer(((Player) sender).getUniqueId());
-            if (bukkitPlayer != null) {
-                bukkitCommandSender = bukkitPlayer;
-            } else {
-                bukkitCommandSender = plugin.getServer().getConsoleSender();
-            }
-        } else {
-            bukkitCommandSender = plugin.getServer().getConsoleSender();
-        }
-        plugin.getServer().dispatchCommand(bukkitCommandSender, command);
-    }
-
-    @Override
     public Player getPlayer(String name) {
         org.bukkit.entity.Player bukkitPlayer = plugin.getServer().getPlayer(name);
         return bukkitPlayer == null ? null : toAPIPlayer(bukkitPlayer);
-    }
-
-    @Override
-    public Player getPlayer(UUID uniqueId) {
-        org.bukkit.entity.Player bukkitPlayer = plugin.getServer().getPlayer(uniqueId);
-        return bukkitPlayer == null ? null : toAPIPlayer(bukkitPlayer);
-    }
-
-    @Override
-    public CommandSender getConsole() {
-        return toAPISender(plugin.getServer().getConsoleSender());
     }
 
     @Override

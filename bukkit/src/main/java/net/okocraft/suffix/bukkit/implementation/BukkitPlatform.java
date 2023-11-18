@@ -41,11 +41,6 @@ public class BukkitPlatform implements Platform {
     }
 
     @Override
-    public String getSuffixSetCommand(String playerName, int suffixPriority, String suffix) {
-        return "lp user " + playerName + " meta setsuffix " + suffixPriority + " " + suffix;
-    }
-
-    @Override
     public void saveResource(String resourceName, Path filepath) throws IOException {
         if (!Files.isRegularFile(filepath)) {
             Files.copy(this.plugin.getResource(resourceName), filepath);

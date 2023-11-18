@@ -14,8 +14,6 @@ public interface Platform {
 
     ServerInterface getServer();
 
-    String getSuffixSetCommand(String playerName, int suffixPriority, String suffix);
-
     void saveResource(String resourceName, Path filepath) throws IOException;
 
     void loadConfig(SuffixConfig config, Path source) throws IOException;

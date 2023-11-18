@@ -54,11 +54,6 @@ public class BungeePlatform implements Platform {
     }
 
     @Override
-    public String getSuffixSetCommand(String playerName, int suffixPriority, String suffix) {
-        return "lpb user " + playerName + " meta setsuffix " + suffixPriority + " " + suffix;
-    }
-
-    @Override
     public void saveResource(String resourceName, Path filepath) throws IOException {
         if (!Files.isRegularFile(filepath)) {
             try (InputStream input = this.getClass().getClassLoader().getResourceAsStream(resourceName)) {

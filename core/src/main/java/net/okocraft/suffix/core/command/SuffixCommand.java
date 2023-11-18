@@ -5,6 +5,9 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.node.NodeType;
+import net.luckperms.api.node.types.SuffixNode;
 import net.okocraft.suffix.core.SuffixPlugin;
 import net.okocraft.suffix.core.api.command.Command;
 import net.okocraft.suffix.core.api.command.TabCompleter;
@@ -90,13 +93,17 @@ public class SuffixCommand extends Command implements TabCompleter {
         }
 
         String newSuffix = suffix.replace("&k", "");
-        String suffixApplyCommand = plugin.platform().getSuffixSetCommand(
-                target.getName(),
-                plugin.config().suffixPriority,
-                newSuffix
-        );
+        int priority = this.plugin.config().suffixPriority;
 
-        this.plugin.platform().getServer().dispatchCommand(this.plugin.platform().getServer().getConsole(), suffixApplyCommand); // TODO: LuckPerms API
+        LuckPermsProvider.get().getUserManager().modifyUser(
+                target.getUniqueId(),
+                user -> {
+                    user.getNodes(NodeType.SUFFIX).stream()
+                            .filter(node -> node.getPriority() == priority)
+                            .forEach(user.data()::remove);
+                    user.data().add(SuffixNode.builder(newSuffix, priority).build());
+                }
+        );
 
         sender.sendMessage(messageMap.formatted(
                 sender.equals(target) ? Messages.SUCCESS_SELF : Messages.SUCCESS_OTHER,
