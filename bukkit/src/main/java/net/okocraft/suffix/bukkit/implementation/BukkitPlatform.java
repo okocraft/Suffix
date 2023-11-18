@@ -1,10 +1,13 @@
 package net.okocraft.suffix.bukkit.implementation;
 
 import java.nio.file.Path;
+
 import net.okocraft.suffix.bukkit.Main;
 import net.okocraft.suffix.core.api.Logger;
 import net.okocraft.suffix.core.api.Platform;
 import net.okocraft.suffix.core.api.ServerInterface;
+import net.okocraft.suffix.core.api.config.SuffixConfig;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class BukkitPlatform implements Platform {
     private final Main plugin;
@@ -44,5 +47,22 @@ public class BukkitPlatform implements Platform {
     @Override
     public String getSuffixSetCommand(String playerName, int suffixPriority, String suffix) {
         return "lp user " + playerName + " meta setsuffix " + suffixPriority + " " + suffix;
+    }
+
+    @Override
+    public void saveResource(String resourceName, Path filepath) throws IOException {
+        if (!Files.isRegularFile(filepath)) {
+            Files.copy(this.plugin.getResource(resourceName), filepath);
+        }
+    }
+
+    @Override
+    public void loadConfig(SuffixConfig config, Path source) {
+        this.plugin.reloadConfig();
+
+        FileConfiguration bukkitConfig = this.plugin.getConfig();
+        config.suffixMaxLength = bukkitConfig.getInt(SuffixConfig.SUFFIX_MAX_LENGTH_KEY, 0);
+        config.suffixPriority = bukkitConfig.getInt(SuffixConfig.SUFFIX_PRIORITY_KEY, 0);
+        config.blacklistPatterns = bukkitConfig.getStringList(SuffixConfig.BLACKLIST_PATTERN_KEY);
     }
 }

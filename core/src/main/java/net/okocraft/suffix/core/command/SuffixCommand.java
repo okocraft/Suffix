@@ -60,7 +60,7 @@ public class SuffixCommand extends Command implements TabCompleter {
         }
 
         if (!target.hasPermission("suffix.unlimited.length")) {
-            int maxLength = plugin.config().getInteger("suffix-length", 1);
+            int maxLength = plugin.config().suffixMaxLength;
             int suffixLength = PlainTextComponentSerializer.plainText().serialize(
                     LegacyComponentSerializer.legacyAmpersand().deserialize(suffix)
             ).length();
@@ -71,7 +71,7 @@ public class SuffixCommand extends Command implements TabCompleter {
         }
 
         if (!target.hasPermission("suffix.unlimited.pattern")) {
-            for (String blacklistPattern : plugin.config().getStringList("blacklist-pattern")) {
+            for (String blacklistPattern : plugin.config().blacklistPatterns) {
                 if (suffix.contains(blacklistPattern)) {
                     sender.sendMessage(Component.translatable("blacklist-pattern").args(Component.text(blacklistPattern)));
                     return;
@@ -81,7 +81,7 @@ public class SuffixCommand extends Command implements TabCompleter {
 
         String suffixApplyCommand = plugin.platform().getSuffixSetCommand(
                 target.getName(),
-                plugin.config().getInteger("suffix-priority"),
+                plugin.config().suffixPriority,
                 suffix.replace("&k", "")
         );
 

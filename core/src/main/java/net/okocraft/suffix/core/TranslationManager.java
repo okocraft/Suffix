@@ -1,8 +1,5 @@
 package net.okocraft.suffix.core;
 
-import com.github.siroshun09.configapi.api.Configuration;
-import com.github.siroshun09.configapi.api.util.ResourceUtils;
-import com.github.siroshun09.configapi.yaml.YamlConfiguration;
 import com.github.siroshun09.translationloader.ConfigurationLoader;
 import com.github.siroshun09.translationloader.TranslationLoader;
 import com.github.siroshun09.translationloader.directory.TranslationDirectory;
@@ -51,7 +48,7 @@ public class TranslationManager {
                 "ja_JP.yml"
         );
         for (String file : files) {
-            ResourceUtils.copyFromJarIfNotExists(jarFilePath, ("languages/" + file), directory.resolve(file));
+            // ResourceUtils.copyFromJarIfNotExists(jarFilePath, ("languages/" + file), directory.resolve(file));
         }
     }
 
@@ -62,6 +59,7 @@ public class TranslationManager {
             return null;
         }
 
+        /*
         Configuration source;
 
         try (JarFile jar = new JarFile(jarFilePath.toFile());
@@ -71,7 +69,7 @@ public class TranslationManager {
 
         TranslationLoader loader = ConfigurationLoader.create(locale, source);
         loader.load();
-
-        return loader;
+         */
+        return null;
     }
 }
