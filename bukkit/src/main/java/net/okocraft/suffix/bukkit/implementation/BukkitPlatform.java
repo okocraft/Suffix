@@ -1,13 +1,19 @@
 package net.okocraft.suffix.bukkit.implementation;
 
-import java.nio.file.Path;
-
 import net.okocraft.suffix.bukkit.Main;
 import net.okocraft.suffix.core.api.Logger;
 import net.okocraft.suffix.core.api.Platform;
 import net.okocraft.suffix.core.api.ServerInterface;
 import net.okocraft.suffix.core.api.config.SuffixConfig;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BukkitPlatform implements Platform {
     private final Main plugin;
@@ -22,16 +28,6 @@ public class BukkitPlatform implements Platform {
     @Override
     public Path getDataFolder() {
         return plugin.getDataFolder().toPath();
-    }
-
-    @Override
-    public String getName() {
-        return plugin.getName();
-    }
-
-    @Override
-    public String getVersion() {
-        return plugin.getDescription().getVersion();
     }
 
     @Override
@@ -64,5 +60,24 @@ public class BukkitPlatform implements Platform {
         config.suffixMaxLength = bukkitConfig.getInt(SuffixConfig.SUFFIX_MAX_LENGTH_KEY, 0);
         config.suffixPriority = bukkitConfig.getInt(SuffixConfig.SUFFIX_PRIORITY_KEY, 0);
         config.blacklistPatterns = bukkitConfig.getStringList(SuffixConfig.BLACKLIST_PATTERN_KEY);
+    }
+
+    @Override
+    public Map<String, String> loadMessages(Path filepath) throws IOException {
+        YamlConfiguration source = new YamlConfiguration();
+
+        try {
+            source.load(filepath.toFile());
+        } catch (InvalidConfigurationException e) {
+            throw new IOException(e);
+        }
+
+        Map<String, String> result = new HashMap<>();
+
+        for (String key : source.getKeys(true)) {
+            result.put(key, source.getString(key));
+        }
+
+        return result;
     }
 }

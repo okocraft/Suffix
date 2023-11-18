@@ -8,6 +8,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -131,6 +132,11 @@ public class VelocityServerInterface implements ServerInterface {
             @Override
             public boolean hasPermission(String permission) {
                 return velocityPlayer.hasPermission(permission);
+            }
+
+            @Override
+            public Locale getLocale() {
+                return velocityPlayer.getEffectiveLocale();
             }
 
             @Override

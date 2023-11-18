@@ -2,6 +2,7 @@ package net.okocraft.suffix.bungeecord.implementation;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -119,6 +120,11 @@ public class BungeeServerInterface implements ServerInterface {
             @Override
             public String getName() {
                 return bungeePlayer.getName();
+            }
+
+            @Override
+            public Locale getLocale() {
+                return bungeePlayer.getLocale();
             }
 
             @Override

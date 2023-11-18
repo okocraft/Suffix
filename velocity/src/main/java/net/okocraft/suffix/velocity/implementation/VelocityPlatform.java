@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class VelocityPlatform implements Platform {
@@ -27,16 +29,6 @@ public class VelocityPlatform implements Platform {
     @Override
     public Path getDataFolder() {
         return plugin.dataDirectory();
-    }
-
-    @Override
-    public String getName() {
-        return plugin.container().getDescription().getName().orElse("");
-    }
-
-    @Override
-    public String getVersion() {
-        return plugin.container().getDescription().getVersion().orElse("");
     }
 
     @Override
@@ -69,5 +61,18 @@ public class VelocityPlatform implements Platform {
         config.suffixMaxLength = node.getNode(SuffixConfig.SUFFIX_MAX_LENGTH_KEY).getInt();
         config.suffixPriority = node.getNode(SuffixConfig.SUFFIX_PRIORITY_KEY).getInt();
         config.blacklistPatterns = node.getNode(SuffixConfig.BLACKLIST_PATTERN_KEY).getList(String::valueOf);
+    }
+
+    @Override
+    public Map<String, String> loadMessages(Path filepath) throws IOException {
+        ConfigurationNode source = YAMLConfigurationLoader.builder().setPath(filepath).build().load();
+
+        Map<String, String> result = new HashMap<>();
+
+        for (Map.Entry<Object, ? extends ConfigurationNode> entry : source.getChildrenMap().entrySet()) {
+            result.put(String.valueOf(entry.getKey()), entry.getValue().getString());
+        }
+
+        return result;
     }
 }
