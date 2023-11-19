@@ -19,7 +19,6 @@ import net.okocraft.suffix.core.message.MessageMap;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class SuffixCommand extends Command implements TabCompleter {
@@ -113,19 +112,20 @@ public class SuffixCommand extends Command implements TabCompleter {
     }
 
     public List<String> onTabComplete(CommandSender sender, String[] args) {
-        if (sender.hasPermission("suffix.other")) {
-            if (args.length == 1) {
-                return plugin.platform().getServer().getPlayers().stream()
-                        .map(CommandSender::getName)
-                        .filter((name) -> name.toLowerCase(Locale.ENGLISH).startsWith(args[0].toLowerCase(Locale.ENGLISH)))
-                        .collect(Collectors.toList());
-            }
+        if (!sender.hasPermission("suffix.use")) {
+            return Collections.emptyList();
+        }
 
-            if (args.length == 2) {
-                return args[1].isEmpty() ? Collections.singletonList("<suffix>") : Collections.emptyList();
-            }
-        } else if (args.length == 1) {
-            return args[0].isEmpty() ? Collections.singletonList("<suffix>") : Collections.emptyList();
+        if (args.length <= 1) {
+            return args.length == 0 || args[0].isEmpty() ? Collections.singletonList("<suffix>") : Collections.emptyList();
+        }
+
+        if (args.length == 2 && sender.hasPermission("suffix.other")) {
+            int argLength = args[1].length();
+            return this.plugin.platform().getServer().getPlayers().stream()
+                    .map(CommandSender::getName)
+                    .filter(name -> name.regionMatches(true, 0, args[1], 0, argLength))
+                    .collect(Collectors.toList());
         }
 
         return Collections.emptyList();
