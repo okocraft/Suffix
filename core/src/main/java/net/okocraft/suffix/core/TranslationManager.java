@@ -15,8 +15,6 @@ import java.util.Locale;
 import java.util.jar.JarFile;
 
 import net.kyori.adventure.key.Key;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class TranslationManager {
 
@@ -47,7 +45,7 @@ public class TranslationManager {
         translationDirectory.unload();
     }
 
-    private void saveDefaultLanguages(@NotNull Path directory) throws IOException {
+    private void saveDefaultLanguages(Path directory) throws IOException {
         List<String> files = Arrays.asList(
                 "en.yml",
                 "ja_JP.yml"
@@ -57,7 +55,7 @@ public class TranslationManager {
         }
     }
 
-    private @Nullable TranslationLoader getBundledTranslation(@NotNull Locale locale) throws IOException {
+    private TranslationLoader getBundledTranslation(Locale locale) throws IOException {
         String strLocale = locale.toString();
 
         if (!(strLocale.equals("en") || strLocale.equals("ja_JP"))) {

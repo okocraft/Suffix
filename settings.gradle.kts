@@ -1,5 +1,15 @@
+pluginManagement {
+    includeBuild("build-logic")
+}
+
 rootProject.name = "Suffix"
 
-includeBuild("bukkit")
-includeBuild("bungeecord")
-includeBuild("velocity")
+sequenceOf(
+        "core",
+        "bukkit",
+        "bungeecord",
+        "velocity"
+).forEach {
+    include("suffix-$it")
+    project(":suffix-$it").projectDir = file(it)
+}
