@@ -5,8 +5,8 @@ import net.okocraft.suffix.core.api.Platform;
 import net.okocraft.suffix.core.api.ServerInterface;
 import net.okocraft.suffix.core.api.config.SuffixConfig;
 import net.okocraft.suffix.velocity.Main;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,19 +52,19 @@ public class VelocityPlatform implements Platform {
 
     @Override
     public void loadConfig(SuffixConfig config, Path source) throws IOException {
-        ConfigurationNode node = YAMLConfigurationLoader.builder().setPath(source).build().load();
-        config.suffixMaxLength = node.getNode(SuffixConfig.SUFFIX_MAX_LENGTH_KEY).getInt();
-        config.suffixPriority = node.getNode(SuffixConfig.SUFFIX_PRIORITY_KEY).getInt();
-        config.blacklistPatterns = node.getNode(SuffixConfig.BLACKLIST_PATTERN_KEY).getList(String::valueOf);
+        ConfigurationNode node = YamlConfigurationLoader.builder().path(source).build().load();
+        config.suffixMaxLength = node.node(SuffixConfig.SUFFIX_MAX_LENGTH_KEY).getInt();
+        config.suffixPriority = node.node(SuffixConfig.SUFFIX_PRIORITY_KEY).getInt();
+        config.blacklistPatterns = node.node(SuffixConfig.BLACKLIST_PATTERN_KEY).getList(String.class);
     }
 
     @Override
     public Map<String, String> loadMessages(Path filepath) throws IOException {
-        ConfigurationNode source = YAMLConfigurationLoader.builder().setPath(filepath).build().load();
+        ConfigurationNode source = YamlConfigurationLoader.builder().path(filepath).build().load();
 
         Map<String, String> result = new HashMap<>();
 
-        for (Map.Entry<Object, ? extends ConfigurationNode> entry : source.getChildrenMap().entrySet()) {
+        for (Map.Entry<Object, ? extends ConfigurationNode> entry : source.childrenMap().entrySet()) {
             result.put(String.valueOf(entry.getKey()), entry.getValue().getString());
         }
 
