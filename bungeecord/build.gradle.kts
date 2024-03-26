@@ -8,9 +8,9 @@ repositories {
 
 dependencies {
     compileOnly("net.md-5:bungeecord-api:1.8-SNAPSHOT")
-    implementation("net.kyori:adventure-api:4.14.0")
-    implementation("net.kyori:adventure-text-minimessage:4.14.0")
-    implementation("net.kyori:adventure-platform-bungeecord:4.3.1")
+    implementation("net.kyori:adventure-api:4.16.0")
+    implementation("net.kyori:adventure-text-minimessage:4.16.0")
+    implementation("net.kyori:adventure-platform-bungeecord:4.3.2")
 }
 
 tasks {
