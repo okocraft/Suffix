@@ -16,7 +16,6 @@ tasks {
     }
     shadowJar {
         minimize()
-        relocate("com.github.siroshun09", "net.okocraft.suffix.libs")
     }
     clean {
         doLast {

@@ -8,6 +8,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -73,36 +74,9 @@ public class VelocityServerInterface implements ServerInterface {
     }
 
     @Override
-    public void dispatchCommand(CommandSender sender, String command) {
-        CommandSource velocitySender;
-        if (sender instanceof Player) {
-            Optional<com.velocitypowered.api.proxy.Player> velocityPlayer = proxy.getPlayer(((Player) sender).getUniqueId());
-            if (velocityPlayer.isPresent()) {
-                velocitySender = velocityPlayer.get();
-            } else {
-                velocitySender = proxy.getConsoleCommandSource();
-            }
-        } else {
-            velocitySender = proxy.getConsoleCommandSource();
-        }
-        proxy.getCommandManager().executeImmediatelyAsync(velocitySender, command);
-    }
-
-    @Override
     public Player getPlayer(String name) {
         Optional<com.velocitypowered.api.proxy.Player> velocityPlayer = proxy.getPlayer(name);
         return velocityPlayer.map(this::toAPIPlayer).orElse(null);
-    }
-
-    @Override
-    public Player getPlayer(UUID uniqueId) {
-        Optional<com.velocitypowered.api.proxy.Player> velocityPlayer = proxy.getPlayer(uniqueId);
-        return velocityPlayer.map(this::toAPIPlayer).orElse(null);
-    }
-
-    @Override
-    public CommandSender getConsole() {
-        return toAPISender(proxy.getConsoleCommandSource());
     }
 
     @Override
@@ -131,6 +105,11 @@ public class VelocityServerInterface implements ServerInterface {
             @Override
             public boolean hasPermission(String permission) {
                 return velocityPlayer.hasPermission(permission);
+            }
+
+            @Override
+            public Locale getLocale() {
+                return velocityPlayer.getEffectiveLocale();
             }
 
             @Override

@@ -3,6 +3,7 @@ version: '${projectVersion}'
 main: net.okocraft.suffix.bukkit.Main
 description: Plugin that implements suffix command.
 depend: [ "LuckPerms" ]
+api-version: "1.13"
 
 commands:
   suffix:

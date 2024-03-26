@@ -2,6 +2,7 @@ package net.okocraft.suffix.bungeecord.implementation;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -64,36 +65,9 @@ public class BungeeServerInterface implements ServerInterface {
     }
 
     @Override
-    public void dispatchCommand(CommandSender sender, String command) {
-        net.md_5.bungee.api.CommandSender bungeeSender;
-        if (sender instanceof Player) {
-            ProxiedPlayer bungeePlayer = ProxyServer.getInstance().getPlayer(((Player) sender).getUniqueId());
-            if (bungeePlayer != null) {
-                bungeeSender = bungeePlayer;
-            } else {
-                bungeeSender = ProxyServer.getInstance().getConsole();
-            }
-        } else {
-            bungeeSender = ProxyServer.getInstance().getConsole();
-        }
-        ProxyServer.getInstance().getPluginManager().dispatchCommand(bungeeSender, command);
-    }
-
-    @Override
     public Player getPlayer(String name) {
         ProxiedPlayer bungeePlayer = ProxyServer.getInstance().getPlayer(name);
         return bungeePlayer == null ? null : toAPIPlayer(bungeePlayer);
-    }
-
-    @Override
-    public Player getPlayer(UUID uniqueId) {
-        ProxiedPlayer bungeePlayer = ProxyServer.getInstance().getPlayer(uniqueId);
-        return bungeePlayer == null ? null : toAPIPlayer(bungeePlayer);
-    }
-
-    @Override
-    public CommandSender getConsole() {
-        return toAPISender(ProxyServer.getInstance().getConsole());
     }
 
     @Override
@@ -119,6 +93,11 @@ public class BungeeServerInterface implements ServerInterface {
             @Override
             public String getName() {
                 return bungeePlayer.getName();
+            }
+
+            @Override
+            public Locale getLocale() {
+                return bungeePlayer.getLocale();
             }
 
             @Override
