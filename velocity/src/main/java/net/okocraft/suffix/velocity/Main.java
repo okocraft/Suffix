@@ -1,6 +1,7 @@
 package net.okocraft.suffix.velocity;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -8,39 +9,41 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import java.nio.file.Path;
-import javax.inject.Named;
+import net.okocraft.suffix.core.SuffixPlugin;
 import net.okocraft.suffix.core.api.Logger;
 import net.okocraft.suffix.velocity.implementation.VelocityLogger;
 import net.okocraft.suffix.velocity.implementation.VelocityPlatform;
-import net.okocraft.suffix.core.SuffixPlugin;
+
+import java.nio.file.Path;
 
 public class Main {
 
-    private final SuffixPlugin plugin;
+
     private final ProxyServer proxy;
-    private final PluginContainer container;
     private final VelocityLogger logger;
     private final Path dataDirectory;
+    private final PluginContainer container;
+
+    private SuffixPlugin plugin;
 
     @Inject
-    public Main(ProxyServer proxy, @Named("suffix") PluginContainer container, org.slf4j.Logger logger, @DataDirectory Path dataDirectory) {
-        plugin = new SuffixPlugin(new VelocityPlatform(this));
+    public Main(ProxyServer proxy, org.slf4j.Logger logger, @DataDirectory Path dataDirectory, @Named("suffix") PluginContainer container) {
         this.proxy = proxy;
-        this.container = container;
         this.logger = new VelocityLogger(logger);
         this.dataDirectory = dataDirectory;
-        plugin.onLoad();
+        this.container = container;
     }
 
     @Subscribe(order = PostOrder.FIRST)
     public void onEnable(ProxyInitializeEvent event) {
-        plugin.onEnable();
+        this.plugin = new SuffixPlugin(new VelocityPlatform(this));
+        this.plugin.onLoad();
+        this.plugin.onEnable();
     }
 
     @Subscribe(order = PostOrder.LAST)
     public void onDisable(ProxyShutdownEvent event) {
-        plugin.onDisable();
+        this.plugin.onDisable();
     }
 
     public ProxyServer proxy() {

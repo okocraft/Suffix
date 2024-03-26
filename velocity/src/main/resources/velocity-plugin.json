@@ -4,6 +4,11 @@
   "version": "${projectVersion}",
   "description": "Plugin that implements suffix command.",
   "authors": [ "lazy_gon", "Siroshun09" ],
-  "dependencies": [ "LuckPerms" ],
-  "main": "net.okocraft.suffix.bungeecord.Main"
+  "dependencies": [
+    {
+      "id": "luckperms",
+      "optional": false
+    }
+  ],
+  "main": "net.okocraft.suffix.velocity.Main"
 }
