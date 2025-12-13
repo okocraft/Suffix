@@ -32,6 +32,5 @@ luckperms = { module = "net.luckperms:api", version.ref = "luckperms" }
 
 [plugins]
 
-run-server = { id = "xyz.jpenilla.run-paper", version.ref = "run-server" }
 bundler = { id = "dev.siroshun.gradle.plugins.bundler", version.ref = "gradle-plugins" }
 jcommon = { id = "dev.siroshun.gradle.plugins.jcommon", version.ref = "gradle-plugins" }
