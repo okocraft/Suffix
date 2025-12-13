@@ -4,8 +4,8 @@ plugins {
 
 dependencies {
     compileOnly("net.kyori:adventure-api:4.14.0")
+    compileOnly("net.kyori:adventure-text-minimessage:4.14.0")
     compileOnly("net.kyori:adventure-text-serializer-plain:4.14.0")
     compileOnly("net.kyori:adventure-text-serializer-legacy:4.14.0")
-    implementation("com.github.siroshun09.configapi:configapi-yaml:4.6.4")
-    implementation("com.github.siroshun09.translationloader:translationloader:2.0.2")
+    compileOnly("net.luckperms:api:5.4")
 }
