@@ -1,20 +1,17 @@
 plugins {
-    id("suffix.platform-conventions")
+    alias(libs.plugins.bundler)
 }
 
-repositories {
-    maven(uri("https://repo.papermc.io/repository/maven-public/"))
+jcommon {
+    setupPaperRepository()
 }
 
 dependencies {
-    compileOnly("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
-    implementation(project(":suffix-core"))
+    compileOnly(libs.velocity)
+    implementation(projects.suffixCore)
 }
 
-tasks {
-    processResources {
-        filesMatching(listOf("velocity-plugin.json")) {
-            expand("projectVersion" to version)
-        }
-    }
+bundler {
+    copyToRootBuildDirectory("Suffix-Velocity-${project.version}")
+    replacePluginVersionForVelocity(project.version)
 }

@@ -1,5 +1,5 @@
 plugins {
-    id("suffix.platform-conventions")
+    alias(libs.plugins.bundler)
 }
 
 repositories {
@@ -13,15 +13,16 @@ dependencies {
     implementation("net.kyori:adventure-api:4.16.0")
     implementation("net.kyori:adventure-text-minimessage:4.16.0")
     implementation("net.kyori:adventure-platform-bukkit:4.3.2")
+    implementation(projects.suffixCore)
 }
 
 tasks {
-    processResources {
-        filesMatching(listOf("plugin.yml")) {
-            expand("projectVersion" to version)
-        }
-    }
     shadowJar {
         relocate("net.kyori", "net.okocraft.suffix.libs")
     }
+}
+
+bundler {
+    copyToRootBuildDirectory("Suffix-Bukkit-${project.version}")
+    replacePluginVersionForBukkit(project.version)
 }
