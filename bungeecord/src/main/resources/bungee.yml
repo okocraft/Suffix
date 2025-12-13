@@ -1,6 +1,0 @@
-name: Suffix
-version: '${projectVersion}'
-main: net.okocraft.suffix.bungeecord.Main
-authors: ["lazy_gon", "Siroshun09"]
-description: Plugin that implements suffix command.
-depends: [ "LuckPerms" ]
