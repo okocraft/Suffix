@@ -2,7 +2,6 @@ package net.okocraft.suffix.velocity;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -33,14 +32,14 @@ public class Main {
         this.container = container;
     }
 
-    @Subscribe(order = PostOrder.FIRST)
+    @Subscribe
     public void onEnable(ProxyInitializeEvent event) {
         this.plugin = new SuffixPlugin(new VelocityPlatform(this));
         this.plugin.onLoad();
         this.plugin.onEnable();
     }
 
-    @Subscribe(order = PostOrder.LAST)
+    @Subscribe
     public void onDisable(ProxyShutdownEvent event) {
         this.plugin.onDisable();
     }

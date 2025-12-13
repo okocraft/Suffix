@@ -78,7 +78,7 @@ public class SuffixPlugin {
         MessageMap messageMap = this.localizationMap.get(locale);
 
         if (messageMap == null) {
-            messageMap = this.localizationMap.get(new Locale(locale.getLanguage()));
+            messageMap = this.localizationMap.get(Locale.of(locale.getLanguage()));
         }
 
         return messageMap != null ? messageMap : this.defaultMessageMap;
@@ -110,6 +110,6 @@ public class SuffixPlugin {
 
         var messageMap = new MessageMap(loadedMessages);
         this.localizationMap.put(locale, messageMap);
-        this.localizationMap.put(new Locale(locale.getLanguage()), messageMap);
+        this.localizationMap.put(Locale.of(locale.getLanguage()), messageMap);
     }
 }
