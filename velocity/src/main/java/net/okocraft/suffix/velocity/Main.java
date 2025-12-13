@@ -10,9 +10,8 @@ import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.okocraft.suffix.core.SuffixPlugin;
-import net.okocraft.suffix.core.api.Logger;
-import net.okocraft.suffix.velocity.implementation.VelocityLogger;
 import net.okocraft.suffix.velocity.implementation.VelocityPlatform;
+import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
@@ -20,16 +19,16 @@ public class Main {
 
 
     private final ProxyServer proxy;
-    private final VelocityLogger logger;
+    private final Logger logger;
     private final Path dataDirectory;
     private final PluginContainer container;
 
     private SuffixPlugin plugin;
 
     @Inject
-    public Main(ProxyServer proxy, org.slf4j.Logger logger, @DataDirectory Path dataDirectory, @Named("suffix") PluginContainer container) {
+    public Main(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory, @Named("suffix") PluginContainer container) {
         this.proxy = proxy;
-        this.logger = new VelocityLogger(logger);
+        this.logger = logger;
         this.dataDirectory = dataDirectory;
         this.container = container;
     }

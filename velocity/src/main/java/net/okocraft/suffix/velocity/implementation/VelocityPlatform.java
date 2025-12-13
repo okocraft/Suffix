@@ -1,10 +1,10 @@
 package net.okocraft.suffix.velocity.implementation;
 
-import net.okocraft.suffix.core.api.Logger;
 import net.okocraft.suffix.core.api.Platform;
 import net.okocraft.suffix.core.api.ServerInterface;
 import net.okocraft.suffix.core.api.config.SuffixConfig;
 import net.okocraft.suffix.velocity.Main;
+import org.slf4j.Logger;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 

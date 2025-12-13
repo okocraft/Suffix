@@ -1,6 +1,7 @@
 package net.okocraft.suffix.core.api;
 
 import net.okocraft.suffix.core.api.config.SuffixConfig;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Path;

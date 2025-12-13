@@ -1,13 +1,13 @@
 package net.okocraft.suffix.bukkit.implementation;
 
 import net.okocraft.suffix.bukkit.Main;
-import net.okocraft.suffix.core.api.Logger;
 import net.okocraft.suffix.core.api.Platform;
 import net.okocraft.suffix.core.api.ServerInterface;
 import net.okocraft.suffix.core.api.config.SuffixConfig;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,7 +32,7 @@ public class BukkitPlatform implements Platform {
 
     @Override
     public Logger getLogger() {
-        return plugin.logger();
+        return plugin.getSLF4JLogger();
     }
 
     @Override

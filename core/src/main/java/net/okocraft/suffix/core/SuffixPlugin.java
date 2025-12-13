@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.stream.Stream;
 
 public class SuffixPlugin {
@@ -42,7 +41,7 @@ public class SuffixPlugin {
                 list.forEach(this::loadMessage);
             }
         } catch (IOException | UncheckedIOException e) {
-            this.platform.getLogger().log(Level.SEVERE, "Could not load messages", e);
+            this.platform.getLogger().error("Could not load messages", e);
         }
     }
 
@@ -52,7 +51,7 @@ public class SuffixPlugin {
             this.platform.saveResource("config.yml", filepath);
             this.platform.loadConfig(this.config, filepath);
         } catch (IOException e) {
-            this.platform.getLogger().log(Level.SEVERE, "Could not load config.yml", e);
+            this.platform.getLogger().error("Could not load config.yml", e);
         }
 
         suffixCommand = new SuffixCommand(this);
