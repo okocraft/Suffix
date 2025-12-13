@@ -4,7 +4,7 @@ rootProject.name = "Suffix"
 
 sequenceOf(
         "core",
-        "bukkit",
+        "paper",
         "velocity"
 ).forEach {
     include("suffix-$it")
