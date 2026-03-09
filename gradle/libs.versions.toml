@@ -5,7 +5,7 @@ slf4j = "2.0.17"
 
 # gradle plugins
 run-server = "3.0.2"
-gradle-plugins = "1.6.1"
+gradle-plugins = "1.8.1"
 
 # platform api
 paper = "1.21.10-R0.1-SNAPSHOT"
