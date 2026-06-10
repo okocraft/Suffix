@@ -8,7 +8,7 @@ run-server = "3.0.2"
 gradle-plugins = "1.8.4"
 
 # platform api
-paper = "26.1.2.build.67-stable"
+paper = "26.1.2.build.69-stable"
 velocity = "3.4.0-SNAPSHOT"
 
 # other plugins
