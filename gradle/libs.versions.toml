@@ -1,6 +1,6 @@
 [versions]
 # common libraries
-adventure = "5.1.1"
+adventure = "5.2.0"
 slf4j = "2.0.18"
 
 # gradle plugins
