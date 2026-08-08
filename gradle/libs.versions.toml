@@ -9,7 +9,7 @@ gradle-plugins = "1.8.4"
 
 # platform api
 paper = "26.2.build.87-stable"
-velocity = "3.5.1"
+velocity = "4.0.0"
 
 # other plugins
 luckperms = "5.5"
