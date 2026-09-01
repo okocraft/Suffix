@@ -8,8 +8,8 @@ run-server = "3.0.2"
 gradle-plugins = "1.8.5"
 
 # platform api
-paper = "26.2.build.115-stable"
-velocity = "4.0.0"
+paper = "26.2.build.119-stable"
+velocity = "4.1.0"
 
 # other plugins
 luckperms = "5.5"
