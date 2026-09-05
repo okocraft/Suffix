@@ -5,10 +5,10 @@ slf4j = "2.0.18"
 
 # gradle plugins
 run-server = "3.0.2"
-gradle-plugins = "1.8.5"
+gradle-plugins = "1.8.6"
 
 # platform api
-paper = "26.2.build.119-stable"
+paper = "26.2.build.121-stable"
 velocity = "4.1.1"
 
 # other plugins
