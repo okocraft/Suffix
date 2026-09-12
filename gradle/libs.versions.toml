@@ -1,7 +1,7 @@
 [versions]
 # common libraries
 adventure = "5.2.0"
-slf4j = "2.0.18"
+slf4j = "2.0.19"
 
 # gradle plugins
 run-server = "3.0.2"
